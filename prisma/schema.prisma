@@ -26,9 +26,9 @@ model User {
   password String
   verified Boolean   @default(false)
   avatar   String?
-  gender   Gender
+  gender   Gender?
   phone    String?
-  Company  Company[]
+  companies  Company[]
 }
 
 enum CompanyType {
@@ -40,12 +40,13 @@ model Company {
   id          String      @id @default(uuid())
   name        String
   address     String
-  email       String
+  email       String      @unique
   contact     String
   gstin       String
   companyType CompanyType
   logo        String
   website     String
   owner       User        @relation(fields: [ownerId], references: [id])
-  ownerId     String
+  ownerId     String      
+  createdAt   DateTime    @default(now())
 }

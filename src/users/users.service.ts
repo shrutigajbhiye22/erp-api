@@ -12,12 +12,11 @@ export class UsersService {
     });
   }
 
-  async findAll() {
-    return this.prisma.user.findMany();
-  }
-
   async findOne(id: string) {
     return this.prisma.user.findUnique({
+      select: {
+        password: false,
+      },
       where: { id },
     });
   }
@@ -36,7 +35,8 @@ export class UsersService {
   }
   async removeAll(magicWord: string) {
     if (magicWord === 'please') {
-      return this.prisma.user.deleteMany();
+      await this.prisma.company.deleteMany();
+      return await this.prisma.user.deleteMany();
     } else {
       throw new Error('Magic word is incorrect');
     }
